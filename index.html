@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+       
+        .box{
+            width: 300px;
+            height: 300px;
+            background: skyblue;
+            margin: 0 auto;
+        }
+        .content{
+            width: 100%;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+         <input type="text" placeholder="请输入内容">
+         <div class="content">
+                
+         </div>
+    </div>
+</body>
+<script src="./ajax.js"></script>
+ <script>
+     var inp = document.querySelector("input");
+     var content= document.querySelector(".content");
+     inp.oninput=function(){
+         var val = this.value.trim();
+         content.innerHTML="";
+         if(val){
+             ajax("./data.json",function(res){
+                 var list = res.filter(item=>{
+                    return String(item.id).includes(val) || String(item.distance).includes(val) || String(item.pingjia).includes(val) ||String(item.name).includes(val)
+                 })
+                 list.map((item)=>{
+                     this.content.innerHTML=
+                     `<div>排名:${item.id}</div>
+                      <div>销量:${item.distance}</div>
+                      <div>评价:${item.pingjia}</div>
+                      <div>名称:${item.name}</div>
+                     `
+                 }).join("");
+             })
+         }
+     }
+ </script>
+</html>
